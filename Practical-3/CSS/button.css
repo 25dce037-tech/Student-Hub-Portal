@@ -1,0 +1,22 @@
+.btn, 
+.nav-links a {
+    background-color: rgb(186, 248, 248);
+    color: black;
+    text-decoration: none;
+    padding: 5px 15px;
+    border-radius: 5px;
+    display: inline-block;
+    width: auto;
+    max-width: fit-content;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.2s ease;
+}
+
+.btn:hover, 
+.nav-links a:hover {
+    background-color: azure;
+    color: black;
+}
