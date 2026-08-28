@@ -17,7 +17,6 @@ body {
     line-height: 1.6;
 }
 
-/* Header styles */
 header,
 .portal-header,
 body > h1 {
@@ -28,7 +27,6 @@ body > h1 {
     border-bottom: 3px solid #2A9DCC;
 }
 
-/* Footer styles */
 footer,
 .portal-footer {
     margin-top: auto;
