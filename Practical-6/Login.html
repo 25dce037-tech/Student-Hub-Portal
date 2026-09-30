@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Login Page</title>
+        <link rel="stylesheet" href="../css/script.css">
+        <script src="../js/script.js"></script>
+    </head>
+    
+    <body>
+        
+        <main align="center">
+            <div style="border: 2px solid #0f4c81; background-color: #ffffff; width: 450px; height: 350px; margin: 0 auto; padding: 25px; border-radius: 8px;">
+                <h1 class="page-header">Login</h1>
+                <hr>
+                <br>
+                <form action="../index.html" method="get" onsubmit="return validateLogin()">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username">
+                    <br><br>
+                
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password">
+                    <br><br>
+                
+                    <input type="submit" value="Login" class="btn">
+                    <a href="Register.html" class="btn">Don't have an account?</a>
+                </form>
+            </div>
+        </main>
+    </body>
+</html>
