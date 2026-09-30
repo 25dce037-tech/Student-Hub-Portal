@@ -1,0 +1,16 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Notices</title>
+<h1>Student Notices</h1>
+<input id="q" placeholder="Search">
+<select id="c"><option value="">All categories</option></select>
+<select id="s"><option value="new">Newest</option><option value="old">Oldest</option><option value="title">Title</option></select>
+<main id="list" aria-live="polite">Loading...</main>
+<button id="prev">Previous</button> <span id="page"></span> <button id="next">Next</button>
+<script>
+let data=[],page=0;const $=s=>document.querySelector(s),size=2;
+fetch('js/script.json').then(r=>r.json()).then(d=>{data=d;[...new Set(d.map(x=>x.category))].forEach(x=>$('#c').add(new Option(x,x)));draw()}).catch(()=>$('#list').textContent='Could not load notices.');
+function draw(){let rows=data.filter(x=>(!$('#c').value||x.category===$('#c').value)&&Object.values(x).join(' ').toLowerCase().includes($('#q').value.toLowerCase()));rows.sort($('#s').value==='title'?(a,b)=>a.title.localeCompare(b.title):(a,b)=>(new Date(b.date)-new Date(a.date))*($('#s').value==='new'?1:-1));let pages=Math.max(1,Math.ceil(rows.length/size));page=Math.min(page,pages-1);$('#list').replaceChildren(...rows.slice(page*size,page*size+size).map(x=>{let a=document.createElement('article'),h=document.createElement('h2'),m=document.createElement('small'),p=document.createElement('p');h.textContent=x.title;m.textContent=`${x.category} · ${x.date}`;p.textContent=x.text;a.append(h,m,p);return a}));$('#page').textContent=`${page+1}/${pages}`;$('#prev').disabled=page===0;$('#next').disabled=page===pages-1;if(!rows.length)$('#list').textContent='No notices found.'}
+[$('#q'),$('#c'),$('#s')].forEach(e=>e.oninput=e.onchange=()=>{page=0;draw()});
+$('#prev').onclick=()=>{page--;draw()};$('#next').onclick=()=>{page++;draw()};
+</script>
