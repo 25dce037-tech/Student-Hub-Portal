@@ -1,0 +1,4 @@
+submitted_at,full_name,student_id,date_of_birth,gender,mobile,email,address,course,year,division,legacy_password_hash
+2026-10-06T17:23:48+00:00,Spandan,,,,987654545,spandan@gmail.com,,spandan@gmail.com,,,$2y$10$TpIMD5Ztmj2jt6zvb8iHbesnIopQvArMia0lPJi7Qbpgod0N1bwj2
+2026-10-06T17:34:51+00:00,Spandan,,,,987654545,spandan@gmail.com,,spandan@gmail.com,,,$2y$10$hfhWjQMM3tY6hiQXLI7OsuH2lNmruvFOxF1OzsNZ8dVSvX1VUkAJu
+2026-10-06T17:45:55+00:00,spandan,25dce037,2011-06-07,Male,1234567890,spandan@gmail.com,abc,"Computer Engineering","First Year",1,
