@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Register</title>
+        <link rel="stylesheet" href="../css/script.css">
+        <script src="../js/script.js"></script>
+    </head>
+    
+    <body> 
+        
+        <main>
+            <div style="border: 2px solid #0f4c81; background-color: #ffffff; width: 450px; height: auto; margin: 0 auto; padding: 25px; border-radius: 8px;">
+                <form id="registration-form" action="../php/register.php" method="post" onsubmit="return validateRegister()">
+                    <h1 class="page-header">Register</h1>
+                    <br>
+                    <hr>
+                    <br>
+                    <p id="registration-message" role="status" aria-live="polite"></p>
+                    <input type="hidden" id="csrf-token" name="csrf_token">
+                    <h2>Student Information</h2>
+                    <label>Full Name:</label>
+                    <input type="text" id="fullname" name="full_name" maxlength="200" required>
+                    <br><br>
+
+                    <label>Student ID:</label>
+                    <input type="text" id="studentid" name="student_id" maxlength="50" required>
+                    <br><br>
+
+                    <label>Date of Birth:</label>
+                    <input type="date" id="date-of-birth" name="date_of_birth" required>
+                    <br><br>
+                <div class="gender">
+
+                    <span class="gender-title">Gender</span>
+
+                    <input type="radio" id="male" name="gender" value="Male" required>
+                    <label for="male">Male</label>
+
+                    <input type="radio" id="female" name="gender" value="Female" required>
+                    <label for="female">Female</label>
+
+                </div>
+                    <hr>
+                    <h2>Contact Information</h2>
+                    <label>Mobile Number:</label>
+                    <input type="tel" id="mobile" name="mobile" maxlength="25" required>
+                    <br><br>
+
+                    <label>Email:</label>
+                    <input type="email" id="email" name="email" maxlength="254" required>
+                    <br><br>
+
+                    <label>Address:</label>
+                    <textarea id="address" name="address" rows="4" cols="30" maxlength="1000" required></textarea>
+                    <hr>
+                    <h2>Academic Information</h2>
+                    <label>Course:</label>
+                    <select id="course" name="course" required>
+                        <option value="Computer Engineering">Computer Engineering</option>
+                        <option value="Information Technology">Information Technology</option>
+                        <option value="Mechanical Engineering">Mechanical Engineering</option>
+                    </select>
+                    <br><br>
+
+                    <label>Year:</label>
+                    <select id="year" name="year" required>
+                        <option value="First Year">First Year</option>
+                        <option value="Second Year">Second Year</option>
+                        <option value="Third Year">Third Year</option>
+                        <option value="Fourth Year">Fourth Year</option>
+                    </select>
+                    <br><br>
+
+                    <label>Division:</label>
+                    <input type="text" id="division" name="division" maxlength="20" required>
+                    <br><br>
+                    <input type="submit" id="register-submit" value="Register" class="btn" disabled>
+                    <input type="reset" value="Clear" class="btn">
+                    <a href="Login.html" class="btn">Already have an account?</a>
+                </form>
+            </div>
+        </main>
+        <script>
+            const registrationForm = document.getElementById('registration-form');
+            const registrationMessage = document.getElementById('registration-message');
+            const registrationSubmit = document.getElementById('register-submit');
+
+            if (new URLSearchParams(window.location.search).get('registration') === 'success') {
+                registrationMessage.textContent = 'Your registration was saved successfully.';
+            }
+
+            fetch('../php/register.php?csrf_token=1', { credentials: 'same-origin', cache: 'no-store' })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error('Could not initialize the registration form.');
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    document.getElementById('csrf-token').value = data.csrf_token;
+                    registrationSubmit.disabled = false;
+                })
+                .catch(() => {
+                    registrationMessage.textContent = 'The form could not be initialized. Refresh the page and try again.';
+                });
+        </script>
+        <footer>
+            <p>Student Hub Portal</p>
+        </footer>
+    </body>
+</html>

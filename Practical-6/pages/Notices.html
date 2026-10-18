@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Notices</title>
+    <link rel="stylesheet" href="../css/script.css">
+    <script src="../js/script.js" defer></script>
+</head>
+<body>
+    <h1 class="page-header">Student Notices</h1>
+
+    <main>
+        <section class="card">
+            <div class="notice-toolbar">
+                <input id="q" type="search" placeholder="Search notices">
+                <select id="c">
+                    <option value="">All categories</option>
+                </select>
+                <select id="s">
+                    <option value="new">Newest</option>
+                    <option value="old">Oldest</option>
+                    <option value="title">Title</option>
+                </select>
+            </div>
+
+            <div id="list" class="notice-list" aria-live="polite">Loading...</div>
+
+            <div class="notice-pagination">
+                <button id="prev" class="btn" type="button">Previous</button>
+                <span id="page" class="notice-page"></span>
+                <button id="next" class="btn" type="button">Next</button>
+            </div>
+        </section>
+
+        <section class="card page-actions">
+            <a href="../index.html" class="btn">Back to Dashboard</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>Student Hub Portal</p>
+    </footer>
+
+    <script>
+        let data = [], page = 0;
+
+        const $ = (selector) => document.querySelector(selector);
+        const size = 2;
+
+        fetch('../js/script.json')
+            .then((response) => response.json())
+            .then((items) => {
+                data = items;
+
+                [...new Set(items.map((item) => item.category))]
+                    .forEach((category) => $('#c').add(new Option(category, category)));
+
+                draw();
+            })
+            .catch(() => {
+                $('#list').textContent = 'Could not load notices.';
+            });
+
+        function draw() {
+            let rows = data.filter((item) =>
+                (!$('#c').value || item.category === $('#c').value) &&
+                Object.values(item)
+                    .join(' ')
+                    .toLowerCase()
+                    .includes($('#q').value.toLowerCase())
+            );
+
+            rows.sort(
+                $('#s').value === 'title'
+                    ? (a, b) => a.title.localeCompare(b.title)
+                    : (a, b) => (new Date(b.date) - new Date(a.date)) * ($('#s').value === 'new' ? 1 : -1)
+            );
+
+            let pages = Math.max(1, Math.ceil(rows.length / size));
+            page = Math.min(page, pages - 1);
+
+            $('#list').replaceChildren(
+                ...rows
+                    .slice(page * size, page * size + size)
+                    .map((item) => {
+                        const article = document.createElement('article');
+                        article.className = 'notice-card';
+
+                        const heading = document.createElement('h2');
+                        heading.textContent = item.title;
+
+                        const meta = document.createElement('div');
+                        meta.className = 'notice-meta';
+                        meta.textContent = `${item.category} · ${item.date}`;
+
+                        const text = document.createElement('p');
+                        text.textContent = item.text;
+
+                        article.append(heading, meta, text);
+                        return article;
+                    })
+            );
+
+            $('#page').textContent = `${page + 1}/${pages}`;
+            $('#prev').disabled = page === 0;
+            $('#next').disabled = page === pages - 1;
+
+            if (!rows.length) {
+                $('#list').innerHTML = '<div class="notice-empty">No notices found.</div>';
+            }
+        }
+
+        [$('#q'), $('#c'), $('#s')].forEach((element) => {
+            element.oninput = element.onchange = () => {
+                page = 0;
+                draw();
+            };
+        });
+
+        $('#prev').onclick = () => {
+            page--;
+            draw();
+        };
+
+        $('#next').onclick = () => {
+            page++;
+            draw();
+        };
+    </script>
+</body>
+</html>

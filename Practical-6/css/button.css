@@ -1,0 +1,51 @@
+.btn, 
+.nav-links a {
+    background-color: #2A9DCC;
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 5px 15px;
+    border-radius: 10px;
+    display: inline-block;
+    width: auto;
+    height: 35px;
+    max-width: fit-content;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.2s ease;
+}
+
+.btn:hover, 
+.nav-links a:hover {
+    background-color: azure;
+    color: #1F7FA8;
+}
+
+.btn,
+.nav-links a,
+input[type="submit"],
+input[type="button"] {
+    display: inline-block;
+    width: auto;
+    max-width: fit-content;
+    height: 38px;
+    padding: 7px 16px;
+    background-color: #2A9DCC;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn:hover,
+.nav-links a:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover {
+    background-color: #1F7FA8;
+    color: #FFFFFF;
+}
