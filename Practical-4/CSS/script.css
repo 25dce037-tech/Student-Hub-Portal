@@ -224,3 +224,49 @@ h2,
     text-align: center;
     border-bottom: 3px solid #2A9DCC;
 }
+
+.profile-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    margin-bottom: 25px;
+    background-color: #FFFFFF;
+    border: 2px solid #A9CCE3;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(18, 53, 91, 0.08);
+}
+
+.profile-image {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #2A9DCC;
+    box-shadow: 0 4px 12px rgba(18, 53, 91, 0.12);
+}
+
+.profile-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.profile-name {
+    color: #12355B;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.profile-role {
+    color: #52606D;
+    font-size: 16px;
+    letter-spacing: 0.2px;
+}
+
+@media (max-width: 650px) {
+    .profile-card {
+        flex-direction: column;
+        text-align: center;
+    }
+}
