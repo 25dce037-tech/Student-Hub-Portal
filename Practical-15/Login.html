@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Login Page</title>
+        <link rel="stylesheet" href="../css/script.css">
+    </head>
+    
+    <body>
+        
+        <main align="center">
+            <div style="border: 2px solid #0f4c81; background-color: #ffffff; width: 550px; max-width: calc(100% - 30px); min-height: 420px; height: auto; margin: 0 auto; padding: 25px; border-radius: 8px;">
+                <h1 class="page-header">Login</h1>
+                <hr>
+                <br>
+                <form action="../php/login.php" method="post">
+                    <p id="login-message" role="alert" aria-live="polite"></p>
+                    <input type="hidden" name="csrf_token" id="login-csrf-token">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" name="email" autocomplete="username" required>
+                    <br><br>
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" autocomplete="current-password" required>
+                    <br><br>
+                    <label for="remember-me">
+                        <input type="checkbox" id="remember-me" name="remember_me" value="1">
+                        Remember me for 30 days
+                    </label>
+                    <br><br>
+                    <input type="submit" id="login-submit" value="Login" class="btn" disabled>
+                    <a href="Register.html" class="btn">Don't have an account?</a>
+                </form>
+            </div>
+        </main>
+        <script>
+            const loginMessage = document.getElementById('login-message');
+            const loginSubmit = document.getElementById('login-submit');
+            const loginErrors = {
+                invalid: 'Email or password is incorrect.',
+                expired: 'Your session expired. Please try again.',
+                timeout: 'Your session timed out. Please log in again.',
+                unavailable: 'Login is temporarily unavailable. Please try again later.'
+            };
+            const errorCode = new URLSearchParams(window.location.search).get('error');
+            if (errorCode && loginErrors[errorCode]) {
+                loginMessage.textContent = loginErrors[errorCode];
+            } else if (new URLSearchParams(window.location.search).has('logout')) {
+                loginMessage.textContent = 'You have been logged out.';
+            }
+
+            fetch('../php/login.php?csrf=1', { credentials: 'same-origin', cache: 'no-store' })
+                .then((response) => {
+                    if (!response.ok) throw new Error('Could not initialize login.');
+                    return response.json();
+                })
+                .then((data) => {
+                    document.getElementById('login-csrf-token').value = data.csrf_token;
+                    loginSubmit.disabled = false;
+                })
+                .catch(() => {
+                    loginMessage.textContent = 'Login could not be initialized. Refresh and try again.';
+                });
+        </script>
+        <footer>
+            <p>Student Hub Portal</p>
+        </footer>
+    </body>
+</html>
