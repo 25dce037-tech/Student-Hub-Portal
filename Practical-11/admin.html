@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Administrator Dashboard</title>
+    <link rel="stylesheet" href="css/script.css">
+</head>
+<body>
+    <h1 class="page-header">Administrator Dashboard</h1>
+    <main>
+        <nav class="home-nav" aria-label="Administrator navigation">
+            <div class="home-nav-links">
+                <a href="pages/Profile.html" class="btn">Profile</a>
+                <a href="pages/Attendance.html" class="btn">Attendance</a>
+                <a href="pages/Timetable.html" class="btn">Timetable</a>
+                <a href="pages/Courses.html" class="btn">Courses</a>
+                <a href="pages/Assignment.html" class="btn">Assignments</a>
+                <a href="pages/Result.html" class="btn">Results</a>
+                <a href="pages/Notices.html" class="btn">Notices</a>
+                <a href="pages/Students.php" class="btn">Students</a>
+                <form action="php/logout.php" method="post">
+                    <input type="hidden" name="csrf_token" id="logout-csrf-token">
+                    <button type="submit" class="btn">Logout</button>
+                </form>
+            </div>
+        </nav>
+        <section class="card" align="center">
+            <h2>Welcome, Administrator</h2>
+            <p>You are signed in with administrator access.</p>
+        </section>
+    </main>
+    <footer><p>Student Hub Portal</p></footer>
+    <script>
+        fetch('php/login.php?csrf=1', { credentials: 'same-origin', cache: 'no-store' })
+            .then((response) => {
+                if (!response.ok) throw new Error('Could not initialize logout.');
+                return response.json();
+            })
+            .then((data) => {
+                document.getElementById('logout-csrf-token').value = data.csrf_token;
+            })
+            .catch(() => {
+                document.querySelector('form[action="php/logout.php"] button[type="submit"]').disabled = true;
+            });
+    </script>
+</body>
+</html>
